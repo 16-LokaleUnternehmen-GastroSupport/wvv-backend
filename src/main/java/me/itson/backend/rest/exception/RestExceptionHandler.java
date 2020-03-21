@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import me.itson.backend.dto.ErrorDTO;
+import me.itson.backend.exception.InvalidCredentialException;
 import me.itson.backend.exception.RegisterException;
 
 @ControllerAdvice
@@ -57,6 +58,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		// Get all errors
 		String errorMessage = ex.getMessage() != null ? ex.getMessage() : "Failed to register user";
+		
+		ErrorDTO error = ErrorDTO.builder().code(status.value()).timestamp(new Date()).message(errorMessage).build();
+		
+		return new ResponseEntity<>(error, headers, status);
+	}
+	
+	@ExceptionHandler({ InvalidCredentialException.class })
+	@Nullable
+	public ResponseEntity<Object> handleRegister(InvalidCredentialException ex, WebRequest request) {
+		HttpHeaders headers = new HttpHeaders();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		
+		// Get all errors
+		String errorMessage = ex.getMessage() != null ? ex.getMessage() : "Wrong credentials";
 		
 		ErrorDTO error = ErrorDTO.builder().code(status.value()).timestamp(new Date()).message(errorMessage).build();
 		

@@ -18,7 +18,7 @@ import lombok.Data;
 public class IomUser {
 
 	@Id
-	@GeneratedValue(generator = "system-uuid")
+	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 

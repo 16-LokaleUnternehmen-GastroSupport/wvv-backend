@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO"
+	packages="me.itson">
+	<Properties>
+		<Property name="wvv.contextpath">its-on-me</Property>
+		<Property name="wvv.logpath">logs</Property>
+	</Properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-3level{length=5} %logger{1.} - %msg%n" charset="UTF-8"/>
+		</Console>
+		<RollingFile name="rollingFile"
+			fileName="${sys:wvv.logpath}/${wvv.contextpath}.log"
+			filePattern="${sys:wvv.logpath}/archive/%d{yyyyMMdd}-${wvv.contextpath}.%i.log"
+			bufferedIO="true"
+			immediateFlush="false"
+			bufferSize="8192000">
+
+			<PatternLayout
+				pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %msg%n" />
+
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="25MB" />
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+
+			<DefaultRolloverStrategy max="100">
+				<Delete basePath="${sys:wvv.logpath}" maxDepth="2">
+					<IfAny>
+						<IfAccumulatedFileSize exceeds="2GB" />
+						<IfLastModified age="30d" />
+					</IfAny>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Logger name="org.springframework" level="info" />
+		<Logger name="org.apache.http" level="info" />
+		<Logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="debug" />
+		<asyncRoot level="debug">
+			<AppenderRef ref="rollingFile" />
+			<AppenderRef ref="Console" />
+		</asyncRoot>
+	</Loggers>
+</Configuration>

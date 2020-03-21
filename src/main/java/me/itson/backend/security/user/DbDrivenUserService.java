@@ -1,5 +1,7 @@
 package me.itson.backend.security.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,16 @@ public class DbDrivenUserService implements IUserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	
+	@Override
+	public boolean validateCredentials(String username, String password) {
+		Optional<IomUser> user = userRepository.findByUsername(username);
+		if(user.isPresent()) {
+			return passwordEncoder.matches(password, user.get().getPassword());
+		}
+		return false;
+	}
+	
 	@Override
 	public IomUser registerNewUserAccount(AccountDTO accountDto) throws EmailExistsException, UsernameExistsException {
 		if (emailExists(accountDto.getEmail())) {
@@ -70,4 +82,5 @@ public class DbDrivenUserService implements IUserService {
 	private boolean usernameExists(String username) {
 		return userRepository.existsByUsername(username);
 	}
+
 }

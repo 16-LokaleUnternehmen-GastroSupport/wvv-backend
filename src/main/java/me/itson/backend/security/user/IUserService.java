@@ -8,6 +8,7 @@ import me.itson.backend.exception.UsernameExistsException;
 
 public interface IUserService {
 
+	boolean validateCredentials(String username, String password);
 	IomUser registerNewUserAccount(AccountDTO accountDto) throws EmailExistsException, UsernameExistsException;
 	IomUser getUserByVerificationToken(String verificationToken);
 

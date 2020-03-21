@@ -17,12 +17,17 @@ public class AccountEndpoint {
 
 	@Autowired
 	private AccountService accountService;
-	
+
+	@PostMapping("login")
+	public void validateCredentials(@RequestBody AccountDTO accountDto) {
+		accountService.login(accountDto);
+	}
+
 	@PostMapping("register")
-	public AccountDTO registerUser(@RequestBody AccountDTO accountDto){
+	public AccountDTO registerUser(@RequestBody AccountDTO accountDto) {
 		return accountService.register(accountDto);
 	}
-	
+
 	@GetMapping("validate/{token:\\w+}")
 	public void validateUser(@PathVariable String token) {
 		accountService.verifyUser(token);
