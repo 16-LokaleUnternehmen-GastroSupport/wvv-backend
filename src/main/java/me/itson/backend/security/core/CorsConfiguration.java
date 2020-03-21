@@ -1,4 +1,4 @@
-package me.itson.backend.security;
+package me.itson.backend.security.core;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;

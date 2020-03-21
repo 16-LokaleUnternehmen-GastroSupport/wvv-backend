@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import me.itson.backend.dto.ErrorDTO;
+import me.itson.backend.exception.RegisterException;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -45,6 +46,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 		ErrorDTO error = ErrorDTO.builder().code(status.value()).timestamp(new Date()).message(errorMessage).build();
 
+		return new ResponseEntity<>(error, headers, status);
+	}
+	
+	@ExceptionHandler({ RegisterException.class })
+	@Nullable
+	public ResponseEntity<Object> handleRegister(RegisterException ex, WebRequest request) {
+		HttpHeaders headers = new HttpHeaders();
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		// Get all errors
+		String errorMessage = ex.getMessage() != null ? ex.getMessage() : "Failed to register user";
+		
+		ErrorDTO error = ErrorDTO.builder().code(status.value()).timestamp(new Date()).message(errorMessage).build();
+		
 		return new ResponseEntity<>(error, headers, status);
 	}
 }

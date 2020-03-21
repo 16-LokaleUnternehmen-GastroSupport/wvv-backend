@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.itson.backend.database.entity.IomUser;
+import me.itson.backend.database.entity.user.IomUser;
 
 @Data
 @Builder

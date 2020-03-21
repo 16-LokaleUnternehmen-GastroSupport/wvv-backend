@@ -1,6 +1,6 @@
 package me.itson.backend.exception;
 
-public class EmailExistsException extends IomException {
+public class EmailExistsException extends RegisterException {
 
 	/**
 	 * 

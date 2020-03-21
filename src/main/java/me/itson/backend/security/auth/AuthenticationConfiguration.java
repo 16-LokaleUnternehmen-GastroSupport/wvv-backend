@@ -22,11 +22,11 @@ public class AuthenticationConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+			.httpBasic()
+				.and()
 			.authorizeRequests()
 				.antMatchers("/", "/account/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/**").permitAll()
 				.anyRequest().authenticated()
-				.and()
-			.httpBasic()
 				.and()
 			.csrf().disable();
 	}

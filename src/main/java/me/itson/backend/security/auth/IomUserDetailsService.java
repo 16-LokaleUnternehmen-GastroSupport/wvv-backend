@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import me.itson.backend.database.entity.IomUser;
-import me.itson.backend.database.repository.IomUserRepository;
+import me.itson.backend.database.entity.user.IomUser;
+import me.itson.backend.database.repository.user.IomUserRepository;
 
 @Service
 public class IomUserDetailsService implements UserDetailsService {
