@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,4 +78,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		return new ResponseEntity<>(error, headers, status);
 	}
+	
+	@ExceptionHandler({ ObjectNotFoundException.class })
+	@Nullable
+	public ResponseEntity<Object> handleRegister(ObjectNotFoundException ex, WebRequest request) {
+		HttpHeaders headers = new HttpHeaders();
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		
+		ErrorDTO error = ErrorDTO.builder().code(status.value()).timestamp(new Date()).message(ex.getMessage()).build();
+		
+		return new ResponseEntity<>(error, headers, status);
+	}
+	
 }

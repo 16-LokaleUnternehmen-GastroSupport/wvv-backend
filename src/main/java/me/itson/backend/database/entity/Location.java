@@ -16,12 +16,14 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.itson.backend.dto.LocationDTO;
 
-@Data
 @Entity
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Location implements Serializable {
@@ -41,8 +43,13 @@ public class Location implements Serializable {
 	@OneToOne(mappedBy = "location", cascade = CascadeType.ALL)
 	private Address address;
 
+	
+	@OneToMany(mappedBy = "location")
+	private Set<Dish> dishes;
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Asset> assets;
+	
 
 	public Location(LocationDTO locationDto) {
 		id = locationDto.getId();
